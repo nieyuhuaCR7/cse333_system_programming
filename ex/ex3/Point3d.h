@@ -1,5 +1,5 @@
-#ifndef POINT3D_H
-#define POINT3D_H
+#ifndef POINT3D_H_
+#define POINT3D_H_
 
 
 typedef struct point3d {
@@ -14,4 +14,4 @@ void Point3d_Scale(Point3d* pointer, int32_t scale);
 
 Point3d Point3d_GetOrigin();
 
-#endif
+#endif // POINT3D_H_
