@@ -37,7 +37,7 @@ int main(){
         return EXIT_FAILURE;
     }
 
-    if(p->y != 7*77){
+    if(p->z != 7*77){
         printf("after scaling, the value of p->z is not correct\n");
         return EXIT_FAILURE;
     }
