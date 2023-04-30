@@ -1,0 +1,28 @@
+#include <iostream>
+
+namespace vector333 {
+  class Vector {
+  public:
+    Vector(); // default constructor
+    Vector(float x, float y, float z); // general constructor
+    Vector(const Vector& other); // copy constructor
+    ~Vector(); // deconstructor
+
+    Vector& operator=(const Vector& other);
+    Vector& operator+=(const Vector& other);
+    Vector& operator-=(const Vector& other);
+
+    friend Vector operator+(const Vector& u, const Vector& v);
+    friend Vector operator-(const Vector& u, const Vector& v);
+    friend float operator*(const Vector& u, const Vector& v);
+    friend Vector operator*(const Vector& u, const float number);
+    friend Vector operator*(const float number, const Vector& u);
+
+    friend std::ostream& operator<<(std::ostream& os, const Vector& u);
+
+  private:
+    float* data_;
+  };
+
+}
+
