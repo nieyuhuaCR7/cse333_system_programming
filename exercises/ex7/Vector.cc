@@ -35,9 +35,9 @@ namespace vector333 {
     } 
 
     // getters
-    float Vector::get_x() const { return data_[0]; }
-    float Vector::get_y() const { return data_[1]; }
-    float Vector::get_z() const { return data_[2]; }
+    // float Vector::get_x() const { return data_[0]; }
+    // float Vector::get_y() const { return data_[1]; }
+    // float Vector::get_z() const { return data_[2]; }
 
     // assignment operator
     Vector& Vector::operator=(const Vector& rhs) {
@@ -66,21 +66,21 @@ namespace vector333 {
     }
 
     // implementation of vector addition
-    Vector operator+(const Vector u, const Vector v) {
+    Vector operator+(const Vector& u, const Vector& v) {
         return Vector(u.get_x() + v.get_x(), u.get_y() + v.get_y(), u.get_z() + v.get_z());
     }
 
     // implementation of vector subtraction
-    Vector operator-(const Vector u, const Vector v) {
+    Vector operator-(const Vector& u, const Vector& v) {
         return Vector(u.get_x() - v.get_x(), u.get_y() - v.get_y(), u.get_z() - v.get_z());
     }
 
     // implementation of vector multiplication
-    Vector operator*(const Vector u, const float number) {
+    Vector operator*(const Vector& u, const float number) {
         return Vector(number * u.get_x(), number * u.get_y(), number * u.get_z());
     }
 
-    Vector operator*(const float number, const Vector u) {
+    Vector operator*(const float number, const Vector& u) {
         return Vector(number * u.get_x(), number * u.get_y(), number * u.get_z());
     }
 

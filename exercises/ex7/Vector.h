@@ -13,9 +13,12 @@ class Vector {
   Vector(const Vector& copyme);  // copy constructor
   ~Vector();  // destructor
 
-  float get_x() const;  // inline member function
-  float get_y() const;  // inline member function
-  float get_z() const;  // inline member function
+  // float get_x() const;  // inline member function
+  // float get_y() const;  // inline member function
+  // float get_z() const;  // inline member function
+  float get_x() const { return data_[0]; }
+  float get_y() const { return data_[1]; }
+  float get_z() const { return data_[2]; }
 
   Vector& operator=(const Vector& rhs);  // assignment operator
   Vector& operator+=(const Vector& rhs);  // add operator
