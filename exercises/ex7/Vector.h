@@ -36,6 +36,6 @@ Vector operator*(const Vector& u, const float number);
 Vector operator*(const float number, const Vector& u);
 std::ostream& operator<<(std::ostream& os, const Vector& u);
 
-}  // namespace vector
+}  // namespace vector333
 
 #endif  // VECTOR_H_
