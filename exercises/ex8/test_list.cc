@@ -31,6 +31,7 @@ template <typename T>
 static void CheckEquals(T expected, T actual);
 
 int main() {
+  // 在栈上新建一个指针，指向heap上一个新建的linkedintlist，该对象为默认的
   IntList* list = new LinkedIntList;
   int output;
 

@@ -33,10 +33,10 @@ class LinkedIntList : public IntList {
   // to use smart pointers at some point
   struct Node {
     int payload;
-    Node* next;
+    std::unique_ptr<Node> next;
     Node* prev;
   };
-  Node* head_;
+  std::unique_ptr<Node> head_;
   Node* tail_;
 };
 
