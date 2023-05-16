@@ -5,8 +5,8 @@ namespace intlist333 {
 // default constructor
 LinkedIntList::LinkedIntList() {
     num_elements_ = 0;
-    head_ = nullptr;
-    tail_ = nullptr;
+    // head_ = nullptr;
+    // tail_ = nullptr;
 }
 
 // intentionally not writing destructor
@@ -16,43 +16,43 @@ int LinkedIntList::num_elements() const {
 }
 
 void LinkedIntList::Push(const int payload) {
-    std::unique_ptr<Node> newnode = std::make_unique<Node>();
+    std::shared_ptr<Node> newnode = std::make_shared<Node>();
     newnode->payload = payload;
     
     if (num_elements_ == 0) {
         // degenerated case: the list is now empty
-        newnode->prev = nullptr;
-        newnode->next = nullptr;
-        head_ = std::move(newnode);
-        tail_ = head_.get();
+        newnode->prev.reset();
+        newnode->next.reset();
+        head_ = newnode;
+        tail_ = head_;
         num_elements_ = 1;
     } else {
         // general case: the list is not empty
-        newnode->prev = nullptr;
-        newnode->next = std::move(head_);
-        newnode->next->prev = newnode.get();
-        head_ = std::move(newnode);
+        newnode->prev.reset();
+        newnode->next = head_;;
+        newnode->next->prev = newnode;
+        head_ = newnode;
         num_elements_ += 1;
     }
 }
 
 void LinkedIntList::Append(const int payload) {
-    std::unique_ptr<Node> newnode = std::make_unique<Node>();
+    std::shared_ptr<Node> newnode = std::make_shared<Node>();
     newnode->payload = payload;
 
     if (num_elements_ == 0) {
         // degenerated case: the list is now empty
-        newnode->prev = nullptr;
-        newnode->next = nullptr;
-        head_ = std::move(newnode);
-        tail_ = head_.get();
+        newnode->prev.reset();
+        newnode->next.reset();
+        head_ = newnode;
+        tail_ = head_;
         num_elements_ = 1;
     } else {
         // general case: the list is not empty
-        newnode->prev = tail_;
-        tail_->next = std::move(newnode);
-        newnode->next = nullptr;
-        tail_ = tail_->next.get();
+        newnode->prev = tail_.lock();
+        tail_.lock()->next = newnode;
+        newnode->next.reset();
+        tail_ = newnode;
         num_elements_ += 1;
     }
 }
@@ -63,26 +63,26 @@ bool LinkedIntList::Pop(int* const payload_ptr) {
     }
     
     int result = head_->payload;
-    // *payload_ptr = result;
+    *payload_ptr = result;
     
-    Node* node = head_.get();
+    std::shared_ptr<Node> node = head_;
     
-    std::cout << result << std::endl;
+    // std::cout << result << std::endl;
     // const int result1 = head_->payload; 
     // std::unique_ptr<Node> node = std::make_unique<Node>();
     // node = std::move(head_);
     if (num_elements_ == 1) {
-        std::cout << result << std::endl;
-        head_ = nullptr;
-        tail_ = nullptr;
-        std::cout << result << std::endl;
-        // int result = head_->payload;
-        *payload_ptr = node->payload;
+        // std::cout << result << std::endl;
+        head_.reset();
+        tail_.reset();
+        // std::cout << result << std::endl;
+        // // int result = head_->payload;
+        // *payload_ptr = node->payload;
     } else {
-        head_ = std::move(node->next);
-        head_->prev = nullptr;
+        head_ = node->next;
+        head_->prev.reset();
         // int result = head_->payload;
-        *payload_ptr = node->payload;        
+        // *payload_ptr = node->payload;        
     }
     
     num_elements_ -= 1;
@@ -94,13 +94,15 @@ bool LinkedIntList::Slice(int* const payload_ptr) {
         return false;
     }
 
-    *payload_ptr = tail_->payload;
+    std::shared_ptr<Node> tailShared = tail_.lock();
+    *payload_ptr = tailShared->payload;
+
     if (num_elements_ == 1) {
-        head_ = nullptr;
-        tail_ = nullptr;
+        head_.reset();
+        tail_.reset();
     } else {
-        tail_ = tail_->prev;
-        tail_->next = nullptr;
+        tail_ = tailShared->prev;
+        tailShared->prev.lock()->next.reset();
     }
     num_elements_ -= 1;
     return true;
