@@ -1,3 +1,5 @@
+// Copyright [2023] <Yuhua Nie, Yanxiao Sun> [legal/copyright]
+// nieyuhua@uw.edu, ysun01@uw.edu
 #ifndef LINKEDINTLIST_H_
 #define LINKEDINTLIST_H_
 
@@ -16,7 +18,7 @@ class LinkedIntList : public IntList {
   // everything up for us
 
   // default constructor
-  LinkedIntList(); 
+  LinkedIntList();
   // destuctor
   virtual ~LinkedIntList() = default;
 

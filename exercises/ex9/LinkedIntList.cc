@@ -1,3 +1,5 @@
+// Copyright [2023] <Yuhua Nie, Yanxiao Sun> [legal/copyright]
+// nieyuhua@uw.edu, ysun01@uw.edu
 #include "LinkedIntList.h"
 #include <iostream>
 
@@ -18,7 +20,7 @@ int LinkedIntList::num_elements() const {
 void LinkedIntList::Push(const int payload) {
     std::shared_ptr<Node> newnode = std::make_shared<Node>();
     newnode->payload = payload;
-    
+
     if (num_elements_ == 0) {
         // degenerated case: the list is now empty
         newnode->prev.reset();
@@ -61,16 +63,9 @@ bool LinkedIntList::Pop(int* const payload_ptr) {
     if (num_elements_ == 0) {
         return false;
     }
-    
     int result = head_->payload;
     *payload_ptr = result;
-    
     std::shared_ptr<Node> node = head_;
-    
-    // std::cout << result << std::endl;
-    // const int result1 = head_->payload; 
-    // std::unique_ptr<Node> node = std::make_unique<Node>();
-    // node = std::move(head_);
     if (num_elements_ == 1) {
         // std::cout << result << std::endl;
         head_.reset();
@@ -81,10 +76,7 @@ bool LinkedIntList::Pop(int* const payload_ptr) {
     } else {
         head_ = node->next;
         head_->prev.reset();
-        // int result = head_->payload;
-        // *payload_ptr = node->payload;        
     }
-    
     num_elements_ -= 1;
     return true;
 }
