@@ -104,7 +104,7 @@ int WrappedRead(int fd, unsigned char* buf, int readlen) {
     remaining -= bytes_read;
   }
 
-  close(fd);
+  // close(fd);
   return total_bytes;
 }
 
@@ -125,13 +125,14 @@ int WrappedWrite(int fd, unsigned char* buf, int writelen) {
         return -1;
       }
     } else if (bytes_written == 0) {
-      break;
+      std::cerr << "socket closed prematurely" << std::endl;
+      return -1;
     }
     
     total_written += bytes_written;
     remaining -= bytes_written;
   }
   
-  close(fd);
+  // close(fd);
   return total_written;
 }

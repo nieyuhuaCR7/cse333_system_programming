@@ -9,8 +9,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include "SocketUtil.h"
+#include <fcntl.h>
 
 #include <iostream>
+
+#define BUFFSIZE 1024
 
 void Usage(char* progname);
 
@@ -40,8 +43,35 @@ int main(int argc, char** argv) {
     Usage(argv[0]);
   }
 
-  
+  int read_fd = open(argv[3], O_RDONLY);
+  if (read_fd == -1) {
+    Usage(argv[0]);
+  }
 
+  uint8_t buff[BUFFSIZE];  // stack allocate a buffer.
+  int read;
+  while ((read = WrappedRead(read_fd, buff, BUFFSIZE)) > 0) {
+    // read would return:
+    // -1 on error, partial or 0 read on eof, and complete read
+    if (WrappedWrite(socket_fd, buff, read) == -1) {  // < buffsize
+      close(socket_fd);
+      close(read_fd);
+      return (EXIT_FAILURE);
+    }
+    // else, correct write, we keep the loop.
+  }
+  if (read == -1) {
+    std::cerr << "Read failed!" << std::endl;
+    close(socket_fd);
+    close(read_fd);
+    return EXIT_FAILURE;
+  } else {  // read 0.
+    close(socket_fd);
+    close(read_fd);
+    return EXIT_SUCCESS;
+  }
+  
+  return 0;
 }
 
 void Usage(char* progname) {
