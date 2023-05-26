@@ -34,25 +34,20 @@ int main(int argc, char** argv) {
     return EXIT_FAILURE;
   }
 
-  while (1) {
-    struct sockaddr_storage caddr;
-    socklen_t caddr_len = sizeof(caddr);
-    int client_fd = accept(listen_fd,
-                           reinterpret_cast<struct sockaddr*>(&caddr),
-                           &caddr_len);
-    if (client_fd < 0) {
-      if ((errno == EINTR) || (errno == EAGAIN) || (errno == EWOULDBLOCK))
-        continue;
-      std::cerr << "Failure on accept: " << strerror(errno) << std::endl;
-      break;
-    }
-
-    HandleClient(client_fd,
-                 reinterpret_cast<struct sockaddr*>(&caddr),
-                 caddr_len,
-                 sock_family);
-    break;
+  struct sockaddr_storage caddr;
+  socklen_t caddr_len = sizeof(caddr);
+  int client_fd = accept(listen_fd,
+                          reinterpret_cast<struct sockaddr*>(&caddr),
+                          &caddr_len);
+  if (client_fd < 0) {
+    std::cerr << "Failure on accept: " << strerror(errno) << std::endl;
+    return EXIT_FAILURE;
   }
+
+  HandleClient(client_fd,
+                reinterpret_cast<struct sockaddr*>(&caddr),
+                caddr_len,
+                sock_family);
 
 
   return 0;
@@ -66,6 +61,7 @@ void Usage(char* progname) {
 
 void HandleClient(int c_fd, struct sockaddr* addr, size_t addrlen,
                   int sock_family) {
+
   while (1) {
     unsigned char clientbuf[1024];
     ssize_t res = WrappedRead(c_fd, clientbuf, BUFFSIZE);
