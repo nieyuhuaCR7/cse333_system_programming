@@ -1,3 +1,7 @@
+// Copyright [2023] <Yuhua Nie and Yanxiao Sun>"  [legal/copyright]
+// 2023.05.24
+// nieyuhua@uw.edu, ysun01@uw.edu
+
 #include "SocketUtil.h"
 
 #include <stdio.h>
