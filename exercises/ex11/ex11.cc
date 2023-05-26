@@ -45,6 +45,7 @@ int main(int argc, char** argv) {
                             &caddr_len);
     if (client_fd < 0) {
       std::cerr << "Failure on accept: " << strerror(errno) << std::endl;
+      close(listen_fd);
       return EXIT_FAILURE;
     }
 
